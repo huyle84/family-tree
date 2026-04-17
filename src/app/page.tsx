@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Users, UploadCloud, ShieldCheck, TreePine } from 'lucide-react';
 
@@ -19,10 +20,12 @@ export default function Home() {
             <span className="text-xl font-bold tracking-tight">DÒNG HỌ LÊ</span>
           </div>
           <div className="flex space-x-4">
-            <button className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">Đăng nhập</button>
-            <button className="px-4 py-2 text-sm font-semibold bg-teal-500 hover:bg-teal-400 text-slate-950 rounded-full shadow-[0_0_15px_rgba(45,212,191,0.4)] transition-all">
+            <Link href="/login" className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
+              Đăng nhập
+            </Link>
+            <Link href="/register" className="px-4 py-2 text-sm font-semibold bg-teal-500 hover:bg-teal-400 text-slate-950 rounded-full shadow-[0_0_15px_rgba(45,212,191,0.4)] transition-all">
               Đăng ký
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
