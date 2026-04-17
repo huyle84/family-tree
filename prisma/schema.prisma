@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Person {
+  id               String       @id @default(uuid()) @db.Uuid
+  fullName         String
+  birthDate        DateTime?
+  deathDate        DateTime?
+  gender           String
+  encryptedPhone   String?
+  encryptedAddress String?
+  userAccountId    String?      @unique @db.Uuid
+  userAccount      UserAccount? @relation(fields: [userAccountId], references: [id])
+  
+  unions           UnionPerson[]
+  childrenLinks    Child[]
+}
+
+model Union {
+  id           String        @id @default(uuid()) @db.Uuid
+  marriageDate DateTime?
+  divorceDate  DateTime?
+  status       String        // "Married, Divorced, Unmarried_Partners"
+  
+  persons      UnionPerson[]
+  children     Child[]
+}
+
+model UnionPerson {
+  unionId  String @db.Uuid
+  personId String @db.Uuid
+  role     String // "Husband, Wife, Unknown"
+  
+  union    Union  @relation(fields: [unionId], references: [id])
+  person   Person @relation(fields: [personId], references: [id])
+  
+  @@id([unionId, personId])
+}
+
+model Child {
+  unionId         String   @db.Uuid
+  personId        String   @db.Uuid
+  isAdopted       Boolean  @default(false)
+  isAcknowledged  Boolean  @default(true)
+  
+  union           Union    @relation(fields: [unionId], references: [id])
+  person          Person   @relation(fields: [personId], references: [id])
+  
+  @@id([unionId, personId])
+}
+
+model UserAccount {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String
+  role         String   @default("Member")
+  mfaEnabled   Boolean  @default(false)
+  
+  person       Person?
+}
+
+model MediaArchive {
+  id               String @id @default(uuid()) @db.Uuid
+  uploaderId       String @db.Uuid
+  fileUrl          String
+  aesEncryptedKey  String
+}
