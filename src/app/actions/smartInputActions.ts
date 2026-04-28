@@ -26,7 +26,7 @@ export async function parseSmartInputAction(text: string) {
     });
 
     const { object } = await generateObject({
-      model: google("gemini-1.5-flash"),
+      model: google("gemini-2.5-flash"),
       schema: SmartInputSchema,
       prompt: `Bạn là một chuyên gia lập cây gia phả. Hãy phân tích đoạn văn bản sau và trích xuất thông tin thành cấu trúc JSON.
 Đoạn văn bản: "${text}"
