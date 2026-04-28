@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Bot, Save, Wand2, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
-import { parseSmartInputAction, commitSmartInputAction, SmartInputResult } from "@/app/actions/smartInputActions";
+import { parseSmartInputAction, commitSmartInputAction } from "@/app/actions/smartInputActions";
+import { SmartInputResult } from "@/lib/schemas";
 
 export default function SmartInputPage() {
   const [text, setText] = useState("");
