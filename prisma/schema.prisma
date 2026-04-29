@@ -9,9 +9,28 @@ datasource db {
 model Person {
   id               String       @id @default(uuid()) @db.Uuid
   fullName         String
+  aliases          String?      // Tên tự, tên húy, biệt hiệu
   birthDate        DateTime?
   deathDate        DateTime?
   gender           String
+  
+  // Thông tin nguồn gốc & Bố mẹ (dành cho người không có trong cây chính)
+  origin           String?      // Quê quán
+  fatherName       String?      // Tên bố (nếu không tạo node cha)
+  motherName       String?      // Tên mẹ (nếu không tạo node mẹ)
+  
+  // Vị trí gia đình
+  familyOrder      Int?         // Vị trí (1 = con cả, 2 = con thứ hai...)
+
+  // Cuộc đời & Sự nghiệp
+  birthPlace       String?      // Nơi sinh
+  deathPlace       String?      // Nơi mất
+  restingPlace     String?      // Nơi an táng/phần mộ
+  education        String?      // Học vấn
+  career           String?      // Nghề nghiệp, chức vụ
+  merits           String?      // Công đức, thành tựu
+  notes            String?      // Ghi chú khác
+
   encryptedPhone   String?
   encryptedAddress String?
   userAccountId    String?      @unique @db.Uuid
@@ -70,4 +89,25 @@ model MediaArchive {
   uploaderId       String @db.Uuid
   fileUrl          String
   aesEncryptedKey  String
+}
+
+model Clan {
+  id              String   @id @default(uuid()) @db.Uuid
+  name            String   // Tên dòng họ
+  progenitor      String?  // Thủy tổ
+  origin          String?  // Nguồn gốc tổ tiên
+  compilerName    String?  // Người biên soạn
+  preface         String?  // Lời tựa
+  
+  branches        Branch[]
+}
+
+model Branch {
+  id              String   @id @default(uuid()) @db.Uuid
+  clanId          String   @db.Uuid
+  name            String   // Tên chi phái
+  founderName     String?  // Người lập chi
+  churchAddress   String?  // Địa chỉ nhà thờ chi
+  
+  clan            Clan     @relation(fields: [clanId], references: [id])
 }

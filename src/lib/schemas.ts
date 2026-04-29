@@ -4,9 +4,18 @@ export const SmartInputSchema = z.object({
   people: z.array(z.object({
     tempId: z.string().describe("Mã định danh tạm thời do AI tạo (VD: P1, P2) để liên kết."),
     fullName: z.string().describe("Họ và tên đầy đủ"),
+    aliases: z.string().optional().nullable().describe("Tên tự, tên húy, biệt hiệu, danh xưng khác"),
     birthYear: z.number().optional().nullable().describe("Năm sinh nếu có"),
     deathYear: z.number().optional().nullable().describe("Năm mất nếu có"),
     gender: z.enum(["Male", "Female", "Unknown"]).describe("Giới tính dựa theo danh xưng (Cụ ông, Bà, etc.)"),
+    familyOrder: z.number().optional().nullable().describe("Thứ tự sinh trong gia đình (VD: 1 cho con cả, 2 cho con thứ...)"),
+    origin: z.string().optional().nullable().describe("Quê quán"),
+    birthPlace: z.string().optional().nullable().describe("Nơi sinh"),
+    deathPlace: z.string().optional().nullable().describe("Nơi mất"),
+    restingPlace: z.string().optional().nullable().describe("Nơi an táng, phần mộ"),
+    education: z.string().optional().nullable().describe("Trình độ học vấn"),
+    career: z.string().optional().nullable().describe("Nghề nghiệp, chức vụ, sự nghiệp"),
+    merits: z.string().optional().nullable().describe("Công đức, đóng góp cho dòng họ hoặc xã hội"),
   })).describe("Danh sách tất cả những người được nhắc đến trong văn bản"),
   
   unions: z.array(z.object({

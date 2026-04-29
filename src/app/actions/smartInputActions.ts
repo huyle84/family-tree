@@ -9,9 +9,9 @@ import { getSession } from "@/lib/auth";
 import { SmartInputSchema, SmartInputResult } from "@/lib/schemas";
 
 export async function parseSmartInputAction(text: string) {
-  // Kiểm tra quyền (chỉ Admin/Moderator mới được dùng)
+  // Kiểm tra quyền (chỉ Admin/Editor mới được dùng)
   const session = await getSession();
-  if (!session || (session.role !== "Admin" && session.role !== "Moderator")) {
+  if (!session || (session.role !== "Admin" && session.role !== "Editor" && session.role !== "Moderator")) {
     return { error: "Bạn không có quyền sử dụng tính năng này." };
   }
 
@@ -47,7 +47,7 @@ Quy tắc quan trọng:
 
 export async function commitSmartInputAction(parsedData: SmartInputResult) {
   const session = await getSession();
-  if (!session || (session.role !== "Admin" && session.role !== "Moderator")) {
+  if (!session || (session.role !== "Admin" && session.role !== "Editor" && session.role !== "Moderator")) {
     return { error: "Bạn không có quyền sử dụng tính năng này." };
   }
 
@@ -64,9 +64,18 @@ export async function commitSmartInputAction(parsedData: SmartInputResult) {
         const newPerson = await tx.person.create({
           data: {
             fullName: p.fullName,
+            aliases: p.aliases,
             gender: p.gender,
             birthDate,
             deathDate,
+            familyOrder: p.familyOrder,
+            origin: p.origin,
+            birthPlace: p.birthPlace,
+            deathPlace: p.deathPlace,
+            restingPlace: p.restingPlace,
+            education: p.education,
+            career: p.career,
+            merits: p.merits,
           },
         });
         tempIdToUuid[p.tempId] = newPerson.id;

@@ -35,15 +35,27 @@ export default async function ManualInputPage() {
               <label className="block text-sm font-medium text-slate-300 mb-1">Họ và Tên <span className="text-red-400">*</span></label>
               <input name="fullName" required className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200" />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Giới tính</label>
-              <select name="gender" className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200">
-                <option value="Unknown">Chưa rõ</option>
-                <option value="Male">Nam</option>
-                <option value="Female">Nữ</option>
-              </select>
-            </div>
+            
             <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Tên húy/tự/biệt hiệu</label>
+                <input name="aliases" className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Giới tính</label>
+                <select name="gender" className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200">
+                  <option value="Unknown">Chưa rõ</option>
+                  <option value="Male">Nam</option>
+                  <option value="Female">Nữ</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Vị trí</label>
+                <input type="number" name="familyOrder" placeholder="Con thứ..." className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200" />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Năm sinh</label>
                 <input type="number" name="birthYear" placeholder="YYYY" className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200" />
@@ -53,6 +65,55 @@ export default async function ManualInputPage() {
                 <input type="number" name="deathYear" placeholder="YYYY" className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200" />
               </div>
             </div>
+
+            <details className="group bg-slate-950/50 border border-slate-800 rounded-lg [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex items-center justify-between px-4 py-3 cursor-pointer text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
+                <span>Nhập thêm thông tin chi tiết (Tùy chọn)</span>
+                <span className="transition group-open:rotate-180">
+                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                </span>
+              </summary>
+              <div className="px-4 pb-4 space-y-4 pt-2 border-t border-slate-800">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Quê quán</label>
+                    <input name="origin" className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Nơi sinh</label>
+                    <input name="birthPlace" className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Nơi mất</label>
+                    <input name="deathPlace" className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Nơi an táng/phần mộ</label>
+                    <input name="restingPlace" className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Học vấn</label>
+                    <input name="education" className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Nghề nghiệp / Chức vụ</label>
+                    <input name="career" className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500" />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Công đức / Thành tựu</label>
+                  <textarea name="merits" rows={2} className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"></textarea>
+                </div>
+              </div>
+            </details>
+
             <button className="w-full py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-lg font-medium transition-colors">Tạo Cá nhân</button>
           </form>
         </div>

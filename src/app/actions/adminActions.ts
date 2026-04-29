@@ -40,6 +40,24 @@ export async function rejectUserAction(userId: string) {
   }
 }
 
+export async function setRoleAction(userId: string, newRole: string) {
+  const session = await getSession();
+  if (!session || session.role !== "Admin") {
+    return { error: "Chỉ Admin mới có thể phân quyền." };
+  }
+
+  try {
+    await prisma.userAccount.update({
+      where: { id: userId },
+      data: { role: newRole },
+    });
+    revalidatePath("/admin/users");
+    return { success: `Đã cập nhật quyền thành ${newRole}.` };
+  } catch (error) {
+    return { error: "Không thể phân quyền." };
+  }
+}
+
 export async function deleteUserAction(userId: string) {
   const session = await getSession();
   if (!session || session.role !== "Admin") {
@@ -63,12 +81,24 @@ export async function deleteUserAction(userId: string) {
 
 export async function createPersonAction(formData: FormData) {
   const session = await getSession();
-  if (!session || (session.role !== "Admin" && session.role !== "Moderator")) return { error: "Unauthorized" };
+  if (!session || (session.role !== "Admin" && session.role !== "Editor" && session.role !== "Moderator")) return { error: "Unauthorized" };
 
   const fullName = formData.get("fullName") as string;
+  const aliases = formData.get("aliases") as string;
   const gender = formData.get("gender") as string;
+  const familyOrder = formData.get("familyOrder") ? parseInt(formData.get("familyOrder") as string) : null;
   const birthYear = formData.get("birthYear") ? parseInt(formData.get("birthYear") as string) : null;
   const deathYear = formData.get("deathYear") ? parseInt(formData.get("deathYear") as string) : null;
+  
+  const origin = formData.get("origin") as string;
+  const birthPlace = formData.get("birthPlace") as string;
+  const deathPlace = formData.get("deathPlace") as string;
+  const restingPlace = formData.get("restingPlace") as string;
+  
+  const education = formData.get("education") as string;
+  const career = formData.get("career") as string;
+  const merits = formData.get("merits") as string;
+  const notes = formData.get("notes") as string;
 
   try {
     const birthDate = birthYear ? new Date(birthYear, 0, 1) : null;
@@ -77,9 +107,19 @@ export async function createPersonAction(formData: FormData) {
     await prisma.person.create({
       data: {
         fullName,
+        aliases,
         gender: gender || "Unknown",
+        familyOrder,
         birthDate,
         deathDate,
+        origin,
+        birthPlace,
+        deathPlace,
+        restingPlace,
+        education,
+        career,
+        merits,
+        notes
       }
     });
     return { success: "Tạo mới cá nhân thành công." };
@@ -90,7 +130,7 @@ export async function createPersonAction(formData: FormData) {
 
 export async function createUnionAction(formData: FormData) {
   const session = await getSession();
-  if (!session || (session.role !== "Admin" && session.role !== "Moderator")) return { error: "Unauthorized" };
+  if (!session || (session.role !== "Admin" && session.role !== "Editor" && session.role !== "Moderator")) return { error: "Unauthorized" };
 
   const husbandId = formData.get("husbandId") as string;
   const wifeId = formData.get("wifeId") as string;
@@ -122,7 +162,7 @@ export async function createUnionAction(formData: FormData) {
 
 export async function createChildAction(formData: FormData) {
   const session = await getSession();
-  if (!session || (session.role !== "Admin" && session.role !== "Moderator")) return { error: "Unauthorized" };
+  if (!session || (session.role !== "Admin" && session.role !== "Editor" && session.role !== "Moderator")) return { error: "Unauthorized" };
 
   const childId = formData.get("childId") as string;
   const unionId = formData.get("unionId") as string;
