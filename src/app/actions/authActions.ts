@@ -77,6 +77,14 @@ export async function loginAction(prevState: any, formData: FormData) {
       return { error: "Email hoặc mật khẩu không chính xác." };
     }
 
+    if (user.status === "Pending") {
+      return { error: "Tài khoản của bạn đang chờ Quản trị viên phê duyệt." };
+    }
+    
+    if (user.status === "Rejected") {
+      return { error: "Tài khoản của bạn đã bị từ chối hoặc vô hiệu hóa." };
+    }
+
     await createSession(user.id, user.role);
     
     // Redirect dựa theo quyền
@@ -84,7 +92,7 @@ export async function loginAction(prevState: any, formData: FormData) {
         return { redirect: "/admin" };
     }
 
-    return { redirect: "/" };
+    return { redirect: "/tree" };
   } catch (error) {
     console.error("Login Error:", error);
     return { error: "Không thể xử lý yêu cầu lúc này." };

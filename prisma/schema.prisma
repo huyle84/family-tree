@@ -59,6 +59,7 @@ model UserAccount {
   email        String   @unique
   passwordHash String
   role         String   @default("Member")
+  status       String   @default("Pending") // "Pending", "Active", "Rejected"
   mfaEnabled   Boolean  @default(false)
   
   person       Person?

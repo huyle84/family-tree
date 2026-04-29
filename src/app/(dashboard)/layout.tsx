@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, UserCheck, Settings, LogOut, TreePine, Wand2 } from "lucide-react";
+import { LayoutDashboard, Users, UserCheck, Settings, LogOut, TreePine, Wand2, Edit } from "lucide-react";
 import { logoutAction } from "@/app/actions/authActions";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -10,8 +10,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navigation = [
     { name: "Tổng quan", href: "/admin", icon: LayoutDashboard },
-    { name: "Nhập liệu AI", href: "/admin/smart-input", icon: Wand2 },
     { name: "Quản lý Tài khoản", href: "/admin/users", icon: Users },
+    { name: "Nhập liệu AI", href: "/admin/smart-input", icon: Wand2 },
+    { name: "Nhập liệu Thủ công", href: "/admin/manual-input", icon: Edit },
     { name: "Phê duyệt (Workflow)", href: "/admin/approvals", icon: UserCheck },
     { name: "Cài đặt Hệ thống", href: "/admin/settings", icon: Settings },
   ];
